@@ -11,6 +11,7 @@ sv = Service('everydayNews', visible= True, enable_on_default= True, bundle='eve
 '''.strip())
 path = os.path.dirname(__file__)
 def getPicUrl():
+    #api修复
     getObject = req.get('http://118.31.18.68:8080/news/api/news-file/get')
     if getObject.status_code != 200:
         sv.logger.warning('URL获取失败')
