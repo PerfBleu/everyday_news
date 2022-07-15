@@ -38,7 +38,7 @@ async def news(bot,ev):
     tmppath = os.path.join(path, "tmp.jpg")
     await bot.send(ev, f"[CQ:image,file=file:///{tmppath}]", at_sender=True)
 
-@sv.scheduled_job('cron', hour = '9' ,minute='30')
+@sv.scheduled_job('cron', hour = '9')
 async def news_scheduled():
     getImg()
     tmppath = os.path.join(path, "tmp.jpg")
