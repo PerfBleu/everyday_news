@@ -7,25 +7,24 @@ import requests as req
 import json
 
 sv = Service('everydayNews', visible= True, enable_on_default= True, bundle='everydayNews', help_='''
-每日简报，请发送“每日简报、报哥或每日新闻”
+每日简报
 '''.strip())
 path = os.path.dirname(__file__)
 def getPicUrl():
-    getObject = req.get('http://api.soyiji.com//news_jpg')
+    getObject = req.get('http://118.31.18.68:8080/news/api/news-file/get')
     if getObject.status_code != 200:
         sv.logger.warning('URL获取失败')
         return()
     else:
         sv.logger.info('图片URL获取成功')
-    return(json.loads(getObject.text)['url'])
-
+    return(json.loads(getObject.text)['result'][0])
 def getImg():
     getObject = req.get(
-        headers={'Referer':'safe.soyiji.com'},
+        #headers={'Referer':'safe.soyiji.com'},
         url=getPicUrl()
     )
     if getObject.status_code != 200:
-        sv.logger.warning('图片获取失败')
+        sv.logger.warning(f'图片获取失败{getObject.status_code}')
         return()
     else:
         sv.logger.info('图片获取成功')
@@ -33,14 +32,14 @@ def getImg():
         image.write(getObject.content)
 
 
-@sv.on_fullmatch(('每日简报','报哥','每日新闻'))
+@sv.on_fullmatch(('每日简报','报哥','每日新闻','今日新闻','今日简报'))
 async def news(bot,ev):
     getImg()
     tmppath = os.path.join(path, "tmp.jpg")
     await bot.send(ev, f"[CQ:image,file=file:///{tmppath}]", at_sender=True)
 
-@sv.scheduled_job('cron', hour = '9')
-async def news_scheduled(bot,ev):
+@sv.scheduled_job('cron', hour = '9' ,minute='30')
+async def news_scheduled():
     getImg()
     tmppath = os.path.join(path, "tmp.jpg")
-    await bot.send(ev, f"[CQ:image,file=file:///{tmppath}]")
+    await sv.broadcast(f"[CQ:image,file=file:///{tmppath}]",'auto_send_news_message', 2)
