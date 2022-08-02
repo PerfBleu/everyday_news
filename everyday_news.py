@@ -18,7 +18,7 @@ def getPicUrl():
         return()
     else:
         sv.logger.info('图片URL获取成功')
-    return(json.loads(getObject.text)['result'][0])
+    return(json.loads(getObject.text)['result']['data'][0])
 def getImg():
     getObject = req.get(
         #headers={'Referer':'safe.soyiji.com'},
