@@ -59,8 +59,8 @@ async def news_scheduled():
     sids = get_self_ids()
     for sid in sids:
         for gid in await bot.get_group_list(self_id = sid):
-            if get_group_config_byindex(gid, 0):
-                bot.send_group_msg(self_id = sid, group_id = gid, message = img)
+            if get_group_config_byindex(gid['group_id'], 0):
+                await bot.send_group_msg(self_id = sid, group_id = gid['group_id'], message = img)
                 asyncio.sleep(1000)
 
 @sv.on_fullmatch(('停止简报推送','禁用简报推送'))

@@ -35,7 +35,7 @@ def write_group_config(gid: int, setting_str: str):
 def parse_setting(settingstr: str) -> list:
     setting_list = []
     for i in settingstr:
-        setting_list.append(True if i == 1 else False)
+        setting_list.append(True if i == '1' else False)
     return(setting_list)
 
 def encode_setting(cfglist: list) -> str:
