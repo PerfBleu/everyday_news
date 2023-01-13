@@ -2,7 +2,7 @@ from configparser import RawConfigParser, NoOptionError
 import os
 from pathlib import Path
 
-working_path = os.path.dirname(__file__)
+working_path = Path(os.path.dirname(__file__))
 cfgpath = working_path / 'config.ini'
 config = RawConfigParser()
 config.read(cfgpath)
