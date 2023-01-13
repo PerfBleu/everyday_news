@@ -58,7 +58,7 @@ async def news_scheduled():
     bot = get_bot()
     sids = get_self_ids()
     for sid in sids:
-        for gid in bot.get_group_list(self_id = sid):
+        for gid in await bot.get_group_list(self_id = sid):
             if get_group_config_byindex(gid):
                 bot.send_group_msg(self_id = sid, group_id = gid, message = img)
                 asyncio.sleep(1000)
